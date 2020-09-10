@@ -3,6 +3,7 @@ package nl.icisoft.blogpost.data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
@@ -19,12 +20,13 @@ import nl.icisoft.blogpost.repository.BlogRepository;
  * Dit component is uitgezet om ervaring op te doen met liquibase
  * 
  */
-// @Component
+@Component
+@Profile("!db")
 public class DataLoader implements ApplicationRunner {
 
         private BlogRepository blogRepository;
 
-        // @Autowired
+        @Autowired
         public DataLoader(BlogRepository userRepository) {
                 this.blogRepository = userRepository;
         }
@@ -33,6 +35,7 @@ public class DataLoader implements ApplicationRunner {
          * @param args
          */
         public void run(ApplicationArguments args) {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!hello");
                 ExampleMatcher modelMatcher = ExampleMatcher.matching().withIgnorePaths("id", "content")
                                 .withMatcher("title", ignoreCase());
                 Blog probe = new Blog("Go up, up and away with your Google Assistant", "");
